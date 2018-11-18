@@ -8,16 +8,16 @@ struct cell {
   int data;
 };
 
-typedef struct cell cell_t;
+typedef struct cell *cellPtr;
 
 /*!
  * @brief
  * @param[in]
  * @return
  */
-cell_t *list_alloc(int data) {
-  cell_t *new = NULL;
-  new = (cell_t *)malloc(sizeof(cell_t));
+cellPtr list_alloc(int data) {
+  cellPtr new = NULL;
+  new = (cellPtr)malloc(sizeof(cellPtr));
   if (new == NULL) {
     fprintf(stderr, "Error: list_alloc(): %s\n", strerror(errno));
     return NULL;
@@ -29,9 +29,9 @@ cell_t *list_alloc(int data) {
   return new;
 }
 
-int list_add(cell_t *header, int data) {
-  cell_t *next = NULL;
-  cell_t *prev = header;
+int list_add(cellPtr header, int data) {
+  cellPtr next = NULL;
+  cellPtr prev = header;
 
   next = list_alloc(data);
   if (next == NULL)
@@ -44,9 +44,9 @@ int list_add(cell_t *header, int data) {
   return 0;
 }
 
-void list_free(cell_t *header) {
-  cell_t *temp = header;
-  cell_t *swap = NULL;
+void list_free(cellPtr header) {
+  cellPtr temp = header;
+  cellPtr swap = NULL;
 
   while (temp != NULL) {
     swap = temp->next;
@@ -55,9 +55,9 @@ void list_free(cell_t *header) {
   }
 }
 
-static void list_print(cell_t *header) {
-  cell_t *p = header;
-  printf("list{");
+static void list_print(cellPtr header) {
+  cellPtr p = header;
+  printf("list{\n");
   while (p != NULL) {
     printf("%d\n", p->data);
     p = p->next;
@@ -67,7 +67,7 @@ static void list_print(cell_t *header) {
 
 int main(void) {
   int cnt = 0;
-  cell_t *header = list_alloc(0);
+  cellPtr header = list_alloc(0);
   if (header == NULL)
     return -1;
 
